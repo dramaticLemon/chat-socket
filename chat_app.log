@@ -1,0 +1,8 @@
+мая 27, 2025 10:21:33 PM org.example.SimpleServer main
+INFO: Cервер запущен на порту 5050
+мая 27, 2025 10:21:39 PM org.example.SimpleServer main
+INFO: Клиент подключен: /127.0.0.1:58444
+мая 27, 2025 10:21:39 PM org.example.SimpleServer main
+INFO: Активные пользователи: 1
+мая 27, 2025 10:21:39 PM org.example.UserHandler run
+INFO: User_1017db4c-8817-44f0-968f-2a1bc852e6eb (/127.0.0.1:58444) delete form the list active users. All: 0
