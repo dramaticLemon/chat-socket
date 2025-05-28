@@ -15,33 +15,33 @@ public class SimpleServer {
     public static List<UserHandler> activeUsers = new CopyOnWriteArrayList<>();
     private static final Logger logger = AppLogger.getLogger();
 
-    public static void main(String[] args) throws  IOException{
+    public static void main(String[] args) {
         ThreadPoolExecutor clientProcessingPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         try {
             ServerSocket server = new ServerSocket(Config.getPort());
-            logger.log(Level.INFO, "Cервер запущен на порту " + Config.getPort());
+            logger.log(Level.INFO, "Server start on port " + Config.getPort());
             while (true) {
                 Socket clientConnection = server.accept();
-                logger.log(Level.INFO, "Клиент подключен: " + clientConnection.getRemoteSocketAddress());
+                logger.log(Level.INFO, "Client connected: " + clientConnection.getRemoteSocketAddress());
 
                 UserHandler userHandler = new UserHandler(clientConnection, activeUsers);
                 activeUsers.add(userHandler);
-                logger.log(Level.INFO, "Активные пользователи: " + activeUsers.size());
+                logger.log(Level.INFO, "Active users: " + activeUsers.size());
                 clientProcessingPool.execute(userHandler);
             }
         } catch (IOException e) {
-            // залогироваь ошибку запуска сервера
+            logger.log(Level.WARNING, e.getMessage());
         } finally {
-            System.out.println("Закрытие сервера и освобождение ресурсов...");
+            System.out.println("Close server and freeing up resources...");
             clientProcessingPool.shutdown();
 
             try {
                 if (!clientProcessingPool.awaitTermination(30, TimeUnit.SECONDS)); {
-                    System.out.println("Пул потоков не завершился вовремя, принудительное завершение...");
+                    System.out.println("Thread pool didn't finish on time, force termination...");
                     clientProcessingPool.shutdownNow();
                 }
             } catch (InterruptedException e) {
-                // залогировать ошибку ожидания завершеня пула потоков
+                logger.log(Level.WARNING, e.getMessage());
             }
         }
 
@@ -49,6 +49,6 @@ public class SimpleServer {
             user.closeConnection();
         }
 
-        System.out.println("Все соединения закрыты. Сервер остановлен.");
+        logger.log(Level.INFO, "All connection close. Stopped Server.");
     }
 }
