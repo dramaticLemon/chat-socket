@@ -6,3 +6,17 @@ INFO: Клиент подключен: /127.0.0.1:58444
 INFO: Активные пользователи: 1
 мая 27, 2025 10:21:39 PM org.example.UserHandler run
 INFO: User_1017db4c-8817-44f0-968f-2a1bc852e6eb (/127.0.0.1:58444) delete form the list active users. All: 0
+мая 28, 2025 10:16:53 AM org.example.SimpleServer main
+INFO: Server start on port 5050
+мая 28, 2025 10:17:01 AM org.example.SimpleServer main
+INFO: Client connected: /127.0.0.1:61513
+мая 28, 2025 10:17:01 AM org.example.SimpleServer main
+INFO: Active users: 1
+мая 28, 2025 10:17:17 AM org.example.UserHandler run
+INFO: User_612240c1-178b-41f6-9395-5fdc8fb23804 (/127.0.0.1:61513) delete form the list active users. All: 0
+мая 28, 2025 10:18:19 AM org.example.SimpleServer main
+INFO: Server start on port 5050
+мая 28, 2025 10:18:24 AM org.example.SimpleServer main
+INFO: Client connected: /127.0.0.1:61524
+мая 28, 2025 10:18:24 AM org.example.SimpleServer main
+INFO: Active users: 1

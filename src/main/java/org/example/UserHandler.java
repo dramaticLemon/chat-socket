@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 
 class UserHandler implements Runnable{
     private final Socket connectSocket;
-    private DataInputStream dis;
-    private DataOutputStream dos;
+    private DataInputStream input;
+    private DataOutputStream output;
     private final String userName;
     private final List<UserHandler> connectedUsers;
     private static final Logger logger = AppLogger.getLogger();
@@ -28,8 +28,8 @@ class UserHandler implements Runnable{
         this.connectSocket = connectionSocket;
         this.connectedUsers = connectedUsers;
         try {
-            this.dis = new DataInputStream(connectionSocket.getInputStream());
-            this.dos = new DataOutputStream(connectSocket.getOutputStream());
+            this.input = new DataInputStream(connectionSocket.getInputStream());
+            this.output = new DataOutputStream(connectSocket.getOutputStream());
         } catch (IOException e) {
             logger.log(Level.WARNING, e.getMessage());
             closeConnection();
@@ -63,7 +63,7 @@ class UserHandler implements Runnable{
         System.out.println(userName + " (" + connectSocket.getRemoteSocketAddress() + ") start processing.");
         try {
             while (true) {
-                String clientMessage = dis.readUTF();
+                String clientMessage = input.readUTF();
                 System.out.println("Message from " + userName + ": " + clientMessage);
 
                 if ("exit".equalsIgnoreCase(clientMessage.trim())) {
@@ -88,13 +88,13 @@ class UserHandler implements Runnable{
     /**
      * Send message to concrete user
      *
-     * @param message
+     * @param message missing description
      */
     public void sendMessage(String message) {
         try {
-            if(dos != null) {
-                dos.writeUTF(message);
-                dos.flush();
+            if(output != null) {
+                output.writeUTF(message);
+                output.flush();
             }
         } catch (IOException e) {
             logger.log(Level.WARNING, e.getMessage());
@@ -104,8 +104,8 @@ class UserHandler implements Runnable{
 
     public void closeConnection() {
         try {
-            if (dis != null) dis.close();
-            if (dos != null) dos.close();
+            if (input != null) input.close();
+            if (output != null) output.close();
             if (connectSocket != null && !connectSocket.isClosed()) connectSocket.close();
         } catch (IOException e) {
             logger.log(Level.WARNING,"Connection error " + e.getMessage());
